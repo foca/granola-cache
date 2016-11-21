@@ -33,6 +33,7 @@ module Granola::Cache
       options = serializer.class.cache_options
 
       if options.fetch(:should_cache, false)
+        key = [options[:key], serializer.cache_key].compact.join("/")
         Granola::Cache.store.fetch(key) { super }
       else
         super

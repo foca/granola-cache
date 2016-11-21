@@ -34,3 +34,16 @@ test "considers the cache key's prefix" do |serializer|
   assert_equal result, store["person/#{serializer.cache_key}"]
   assert_equal nil, store[serializer.cache_key]
 end
+
+test "can pass a specific store to a serializer" do |serializer|
+  other_store = Granola::Cache::MemoryStore.new
+
+  global_store = Granola::Cache.store.instance_variable_get(:@store)
+  local_store = other_store.instance_variable_get(:@store)
+
+  serializer.class.cache store: other_store
+  result = serializer.to_json
+
+  assert_equal result, local_store[serializer.cache_key]
+  assert_equal nil, global_store[serializer.cache_key]
+end

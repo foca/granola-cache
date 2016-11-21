@@ -137,9 +137,10 @@ module Granola::Cache
 
       options = options.dup
 
+      store = options.delete(:store) { Granola::Cache.store }
       if options.delete(:should_cache)
         key = [options.delete(:key), serializer.cache_key].compact.join("/")
-        Granola::Cache.store.fetch(key, options) { super }
+        store.fetch(key, options) { super }
       else
         super
       end

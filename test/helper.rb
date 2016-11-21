@@ -3,7 +3,7 @@ require "granola/cache"
 # Store that keeps track of how many times it rendered from cache or actually
 # called the renderer.
 class CounterStore < Granola::Cache::MemoryStore
-  def fetch(key)
+  def fetch(key, *)
     self.from_cache += 1
     super(key) do
       self.rendered += 1

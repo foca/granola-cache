@@ -30,7 +30,12 @@ module Granola::Cache
 
   module CacheableRenderer
     def render(serializer, *)
-      options = serializer.class.cache_options
+      options = case serializer
+                when Granola::List
+                  serializer.item_serializer.cache_options
+                else
+                  serializer.class.cache_options
+                end
 
       if options.fetch(:should_cache, false)
         key = [options[:key], serializer.cache_key].compact.join("/")

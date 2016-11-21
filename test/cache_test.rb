@@ -75,3 +75,38 @@ scope do
     assert_equal 0, store.from_cache
   end
 end
+
+scope do
+  prepare do
+    @people = [
+      Person.new(1, "Jane Doe", Time.parse("2016-11-20 23:00:00")),
+      Person.new(2, "John Doe", Time.parse("2016-11-20 23:01:00")),
+    ]
+  end
+
+  setup do
+    CacheableSerializer.list(@people)
+  end
+
+  test "caches the entire list" do |serializer|
+    store = Granola::Cache.store = CounterStore.new
+
+    assert_equal 0, store.rendered
+    assert_equal 0, store.from_cache
+
+    serializer.to_json
+
+    assert_equal 1, store.rendered
+    assert_equal 0, store.from_cache
+
+    serializer.to_json
+
+    assert_equal 1, store.rendered
+    assert_equal 1, store.from_cache
+
+    serializer.to_json
+
+    assert_equal 1, store.rendered
+    assert_equal 2, store.from_cache
+  end
+end

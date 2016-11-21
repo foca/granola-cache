@@ -74,6 +74,16 @@ scope do
     assert_equal 2, store.rendered
     assert_equal 0, store.from_cache
   end
+
+  test "can disable caching for a specific call" do |serializer|
+    error_store = Class.new { def fetch(*) fail "should not cache!" end }
+    store = Granola::Cache.store = error_store.new
+
+    serializer.class.without_caching do
+      output = serializer.to_json
+      assert_equal output, serializer.to_json
+    end
+  end
 end
 
 scope do

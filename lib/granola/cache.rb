@@ -113,6 +113,15 @@ module Granola::Cache
     def cache_options
       @cache_options ||= {}
     end
+
+    # Public: Disable caching for the duration of the block.
+    def without_caching
+      should_cache = cache_options[:should_cache]
+      cache_options[:should_cache] = false
+      yield
+    ensure
+      cache_options[:should_cache] = should_cache
+    end
   end
 
   # Extensions to Granola::Renderer to perform the actual storing in or

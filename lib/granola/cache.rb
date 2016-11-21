@@ -20,31 +20,45 @@ require "granola"
 #   end
 #
 #   serializer = PersonSerializer.new(person)
-#   person.to_json #=> generates JSON and stores in Granola::Cache.store
-#   person.to_json #=> retreives the JSON from the cache.
+#   serializer.to_json #=> generates JSON and stores in Granola::Cache.store
+#   serializer.to_json #=> retreives the JSON from the cache.
 #
 #   # do something with person so that `person.updated_at` changes
 #
-#   person.to_json #=> generates JSON and stores the new version in the store
+#   serializer.to_json #=> generates JSON and puts the new version in the store
 #
 # Cache Options
 # =============
 #
-# Granola::Cache only recognizes the `:key` option by default. This is meant to
-# be a prefix applied to cache keys. In the example above, any particular
-# serializer will be stored in the cache with the following key:
+# Granola::Cache only recognizes two options: `:key` and `:store`. Any other
+# option passed will be ignored by Granola, but forwarded to the cache store
+# (see below.)
 #
-#   "#{key}/#{id}:#{updated_at.to_i}"
+# `:key`
+# ------
 #
-# Any other option you pass will be ignored by Granola, but forwarded to the
-# cache store (see below.)
+# This is meant to be a prefix applied to cache keys. In the example above, any
+# particular serializer will be stored in the cache with the following key:
+#
+#   "#{key}/#{object.id}:#{object.updated_at.to_i}"
+#
+# `:store`
+# --------
+#
+# This allows overriding the caching store for a specific serializer.
+#
+#   class WeeklyReportSerializer < Granola::Serializer
+#     cache store: DifferentStore.new
+#   end
+#
+# See Cache Stores below for more on configuring the global store.
 #
 # Cache Stores
 # ============
 #
 # By default, Granola::Cache stores cached output from serializers in an
-# in-memory Hash. This is not meant for production use (it's not thread safe.)
-# You should provide an alternative store for your application.
+# in-memory Hash. This is not meant for production use. You should provide an
+# alternative store for your application.
 #
 # Alternative stores should implement a single method:
 #

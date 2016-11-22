@@ -1,4 +1,6 @@
 language: ruby
+services:
+  - redis-server
 script: make
 rvm:
   - 2.3.1

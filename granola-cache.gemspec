@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
   s.files = Dir[
     "LICENSE",
     "README.md",
+    "examples/redis_store.rb",
     "lib/granola/cache.rb",
     "lib/granola/cache/version.rb",
   ]
@@ -26,4 +27,5 @@ Gem::Specification.new do |s|
   # FIXME: Once Granola 1.0 launches, change this to depend on "~> 1.0"
   s.add_dependency "granola", ">= 0.13", "~> 0"
   s.add_development_dependency "cutest", "~> 1.2"
+  s.add_development_dependency "redic", "~> 1.5"
 end

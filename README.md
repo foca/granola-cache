@@ -58,6 +58,9 @@ Where:
 If the key isn't found in the store, the block is invoked, and the result from
 this block is both returned _and_ stored in the cache for further use.
 
+There's an example [Redis Store](./examples/redis_store.rb) included in this
+repository, should you wish to inspect it.
+
 ### Rails
 
 This is compatible with `ActiveSupport::Cache::Store`, so if you're in a Rails

@@ -1,4 +1,4 @@
-# Granola::Cache [![Build Status](https://img.shields.io/travis/foca/granola.svg)](https://travis-ci.org/foca/granola) [![RubyGem](https://img.shields.io/gem/v/granola.svg)](https://rubygems.org/gems/granola)
+# Granola::Cache [![Build Status](https://img.shields.io/travis/foca/granola-cache.svg)](https://travis-ci.org/foca/granola-cache) [![RubyGem](https://img.shields.io/gem/v/granola-cache.svg)](https://rubygems.org/gems/granola-cache)
 
 Provide caching options for the result of your [Granola][] serializers.
 
@@ -47,13 +47,15 @@ store for your application.
 
 Alternative stores should implement a single method:
 
-    fetch(key, options = {}, &block)
+``` ruby
+fetch(key, options = {}, &block)
+```
 
 Where:
 
-  key     - The cache key to fetch from cache.
-  options - Any options the cache store can take (for example, `:expire_in`
-            if your store supports Time-based expiration.)
+* `key`: The cache key to fetch from cache.
+* `options`: Any options the cache store can take (for example, `:expire_in`
+  if your store supports Time-based expiration.)
 
 If the key isn't found in the store, the block is invoked, and the result from
 this block is both returned _and_ stored in the cache for further use.
@@ -66,7 +68,9 @@ repository, should you wish to inspect it.
 This is compatible with `ActiveSupport::Cache::Store`, so if you're in a Rails
 application, you can just do this in `config/initializers/granola.rb`:
 
-    Granola::Cache.store = Rails.cache
+``` ruby
+Granola::Cache.store = Rails.cache
+```
 
 ## Cache Options
 
@@ -81,15 +85,19 @@ store](#cache-stores).
 This is meant to be a prefix applied to cache keys. In the example above, any
 particular serializer will be stored in the cache with the following key:
 
-  "#{key}/#{object.id}:#{object.updated_at.to_i}"
+``` ruby
+"#{key}/#{object.id}:#{object.updated_at.to_i}"
+```
 
 ### `:store`
 
 This allows overriding the caching store for a specific serializer.
 
-  class WeeklyReportSerializer < Granola::Serializer
-    cache store: DifferentStore.new
-  end
+``` ruby
+class WeeklyReportSerializer < Granola::Serializer
+  cache store: DifferentStore.new
+end
+```
 
 See [Cache Stores](#cache-stores) for more on configuring the global store.
 

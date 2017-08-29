@@ -24,8 +24,7 @@ Gem::Specification.new do |s|
     "lib/granola/cache/version.rb",
   ]
 
-  # FIXME: Once Granola 1.0 launches, change this to depend on "~> 1.0"
-  s.add_dependency "granola", ">= 0.13", "~> 0"
+  s.add_dependency "granola", ">= 0.13", "~> 1.0"
   s.add_development_dependency "cutest", "~> 1.2"
   s.add_development_dependency "redic", "~> 1.5"
 end
